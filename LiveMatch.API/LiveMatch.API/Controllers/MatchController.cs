@@ -8,6 +8,11 @@ namespace LiveMatch.API.Controllers
     [ApiController]
     public class MatchController : ControllerBase
     {
+        public MatchController() 
+        { 
+
+        }
+
         // GET: api/<MatchController>
         [HttpGet]
         public IEnumerable<string> Get()
