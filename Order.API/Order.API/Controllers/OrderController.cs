@@ -2,13 +2,13 @@
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace LiveMatch.API.Controllers
+namespace Order.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MatchController : ControllerBase
+    public class OrderController : ControllerBase
     {
-        public MatchController() 
+        public OrderController() 
         { 
 
         }
