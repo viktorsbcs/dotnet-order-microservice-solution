@@ -5,8 +5,12 @@ services:
     restart: always
     ports:
       - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
     healthcheck:
-      test: ["cmd", "pg_isready"]
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "postgres"]
       interval: 1s
       timeout: 5s
       retries: 10
