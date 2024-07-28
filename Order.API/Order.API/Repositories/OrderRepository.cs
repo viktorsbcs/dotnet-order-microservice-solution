@@ -1,6 +1,17 @@
-﻿namespace Order.API.Repositories
+﻿using Order.API.Entities;
+
+namespace Order.API.Repositories
 {
-    public class OrderRepository
+    public interface IOrderRepository
     {
+        Task<UserOrder> CreateOrder();
+    }
+
+    public class OrderRepository : IOrderRepository
+    {
+        public async Task<UserOrder> CreateOrder()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
