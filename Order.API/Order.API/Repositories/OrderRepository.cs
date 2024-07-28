@@ -1,4 +1,5 @@
-﻿using Order.API.DatabaseContexts;
+﻿using Microsoft.EntityFrameworkCore;
+using Order.API.DatabaseContexts;
 using Order.API.Entities;
 
 namespace Order.API.Repositories
@@ -10,9 +11,9 @@ namespace Order.API.Repositories
 
     public class OrderRepository : IOrderRepository
     {
-        private readonly OrderContext _orderContext;
+        private readonly DbContext _orderContext;
 
-        public OrderRepository(OrderContext orderContext) 
+        public OrderRepository(DbContext orderContext) 
         {
             this._orderContext = orderContext;
         }
