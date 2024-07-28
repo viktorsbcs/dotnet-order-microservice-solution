@@ -1,15 +1,20 @@
+using Order.API.DatabaseContexts;
+using Npgsql;
+using Microsoft.EntityFrameworkCore;
+
 internal class Program
 {
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
-
         builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddDbContext<OrderContext>(options =>
+        {
+            options.UseNpgsql(builder.Configuration.GetConnectionString("OrderContext"));
+        });
         
         var app = builder.Build();
 
@@ -21,9 +26,7 @@ internal class Program
         }
 
         app.UseAuthorization();
-
         app.MapControllers();
-
         app.Run();
     }
 }
