@@ -16,6 +16,7 @@ services:
       retries: 10
     volumes:
       - db:/var/lib/postgresql/data
+      - ./PostgreData:/docker-entrypoint-initdb.d
 
   adminer:
     image: adminer
