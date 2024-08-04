@@ -19,7 +19,7 @@ namespace Order.API.Repositories
         }
         public async Task<UserOrder> CreateOrderAsync(Guid orderId)
         {
-            var newUserOrder = new UserOrder() { Id = orderId, OrderDate = DateTime.Now };
+            var newUserOrder = new UserOrder() { Id = orderId, OrderDate = DateTime.UtcNow };
 
             await _orderContext.AddAsync(newUserOrder);
             await _orderContext.SaveChangesAsync();
