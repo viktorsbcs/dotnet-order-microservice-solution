@@ -12,8 +12,10 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
         builder.Services.AddScoped<DbContext, OrderContext>();
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
         builder.Services.AddDbContext<OrderContext>(options =>
         {
             options.UseNpgsql(builder.Configuration.GetConnectionString("OrderContext"));
