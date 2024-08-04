@@ -21,25 +21,18 @@ namespace Order.API.Controllers
 
         [HttpPost("/createOrder")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserOrder))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(UserOrder))]
         public async Task<IActionResult> CreateOrder()
         {
-            try
-            {
-                var orderId = Guid.NewGuid();
-                var createdOrder = await _orderRepo.CreateOrderAsync(orderId);
-                
-                if (createdOrder == null)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Failed to create new order");
-                }
+            var orderId = Guid.NewGuid();
+            var createdOrder = await _orderRepo.CreateOrderAsync(orderId);
 
-                return StatusCode(StatusCodes.Status201Created, createdOrder);
-            }
-            catch (Exception ex)
+            if (createdOrder == null)
             {
-                throw;
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to create new order");
             }
+
+            return StatusCode(StatusCodes.Status201Created, createdOrder);
         }
     }
 }
