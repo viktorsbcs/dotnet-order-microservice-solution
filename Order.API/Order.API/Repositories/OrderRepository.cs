@@ -15,13 +15,15 @@ namespace Order.API.Repositories
 
         public OrderRepository(DbContext orderContext) 
         {
-            this._orderContext = orderContext;
+            _orderContext = orderContext;
         }
         public async Task<UserOrder> CreateOrderAsync(Guid orderId)
         {
-            var newUserOrder = new UserOrder() { Id = orderId };
+            var newUserOrder = new UserOrder() { Id = orderId, OrderDate = DateTime.Now };
+
             await _orderContext.AddAsync(newUserOrder);
             await _orderContext.SaveChangesAsync();
+
             return newUserOrder;
         }
     }
