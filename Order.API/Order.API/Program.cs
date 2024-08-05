@@ -20,11 +20,8 @@ internal class Program
 
         var connectionStringBuilder = new StringBuilder(builder.Configuration.GetConnectionString("OrderContext"));
 
-        if (builder.Environment.IsDevelopment())
-        {
-            connectionStringBuilder.Replace("{{postgres_user}}", builder.Configuration["postgres_user"]);
-            connectionStringBuilder.Replace("{{postgres_pw}}", builder.Configuration["postgres_pw"]);
-        }
+        connectionStringBuilder.Replace("{{postgres_user}}", builder.Configuration["postgres_user"]);
+        connectionStringBuilder.Replace("{{postgres_pw}}", builder.Configuration["postgres_pw"]);
 
         builder.Services.AddDbContext<OrderContext>(options =>
         {
