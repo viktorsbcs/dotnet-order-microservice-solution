@@ -1,14 +1,35 @@
 services:
+  order-api:
+    build:
+      context: ./Order.API/Order.API/
+      dockerfile: ./Dockerfile
+    container_name: order-api
+    depends_on:
+      - postgres-db
+    ports:
+      - 5000:5000
+    env_file: 
+      - path: ./api.env
+        required: true
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - API_POSTGRES_USER=${API_POSTGRES_USER}
+      - API_POSTGRES_PASSWORD=${API_POSTGRES_PASSWORD}
+      - API_POSTGRES_DB=${API_POSTGRES_DB}
+      - API_POSTGRES_SERVER=${API_POSTGRES_SERVER}
   postgres-db:
     image: postgres
     container_name: postgres-server
     restart: always
     ports:
       - 5432:5432
+    env_file:
+      - path: ./db.env
+        required: true
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=OrdersDb
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres", "-d", "postgres"]
       interval: 1s
@@ -17,7 +38,6 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
       - ./PostgreData:/docker-entrypoint-initdb.d
-
   adminer:
     image: adminer
     container_name: adminer
