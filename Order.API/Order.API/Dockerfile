@@ -5,13 +5,13 @@ COPY *.csproj ./
 RUN dotnet restore
 
 COPY . .
-RUN dotnet publish -c Debug -o out
+RUN dotnet publish -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/out ./
 
-EXPOSE 5169
+EXPOSE 5000
 
 # Start the application
 ENTRYPOINT ["dotnet", "Order.API.dll"]
