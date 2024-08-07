@@ -3,6 +3,7 @@ services:
     build:
       context: ./Order.API/Order.API/
       dockerfile: ./Dockerfile
+    image: order-api
     container_name: order-api
     depends_on:
       - postgres-db
