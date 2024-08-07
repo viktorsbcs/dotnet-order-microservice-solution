@@ -1,9 +1,7 @@
 using Order.API.DatabaseContexts;
-using Npgsql;
 using Microsoft.EntityFrameworkCore;
 using Order.API.Repositories;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 
 internal class Program
 {
@@ -21,8 +19,6 @@ internal class Program
         builder.Configuration.AddJsonFile("appsettings.json", false);
         builder.Configuration.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", false);
         builder.Configuration.AddEnvironmentVariables();
-
-
 
         var dbConnectionStringBuilder = new StringBuilder(builder.Configuration.GetConnectionString("OrderContext"));
 
