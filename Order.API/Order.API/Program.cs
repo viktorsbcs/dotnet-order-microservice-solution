@@ -18,25 +18,29 @@ internal class Program
         builder.Services.AddScoped<DbContext, OrderContext>();
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
-        var connectionStringBuilder = new StringBuilder(builder.Configuration.GetConnectionString("OrderContext"));
+        builder.Configuration.AddJsonFile("appsettings.json", false);
+        builder.Configuration.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", false);
+        builder.Configuration.AddEnvironmentVariables();
 
-        connectionStringBuilder.Replace("{{postgres_user}}", builder.Configuration["postgres_user"]);
-        connectionStringBuilder.Replace("{{postgres_pw}}", builder.Configuration["postgres_pw"]);
+
+
+        var dbConnectionStringBuilder = new StringBuilder(builder.Configuration.GetConnectionString("OrderContext"));
+
+        dbConnectionStringBuilder.Replace("API_POSTGRES_USER", Environment.GetEnvironmentVariable("API_POSTGRES_USER"));
+        dbConnectionStringBuilder.Replace("API_POSTGRES_PASSWORD", Environment.GetEnvironmentVariable("API_POSTGRES_PASSWORD"));
+        dbConnectionStringBuilder.Replace("API_POSTGRES_DB", Environment.GetEnvironmentVariable("API_POSTGRES_DB"));
+        dbConnectionStringBuilder.Replace("API_POSTGRES_SERVER", Environment.GetEnvironmentVariable("API_POSTGRES_SERVER"));
 
         builder.Services.AddDbContext<OrderContext>(options =>
         {
-            options.UseNpgsql(connectionStringBuilder.ToString());
+            options.UseNpgsql(dbConnectionStringBuilder.ToString());
         });
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        
         app.UseAuthorization();
         app.MapControllers();
         app.Run();
