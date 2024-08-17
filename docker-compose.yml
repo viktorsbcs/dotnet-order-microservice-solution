@@ -7,6 +7,7 @@ services:
     container_name: order-api
     depends_on:
       - postgres-db
+      - rabbitmq
     ports:
       - 5000:5000
     env_file: 
@@ -46,6 +47,28 @@ services:
     restart: always
     ports:
       - 8080:8080
+  express-gui-api:
+    image: express-gui-api
+    container_name: express-gui-api
+    build:
+      context: ./OrderGui.API
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - order-api
+      - rabbitmq
+    restart: always
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 volumes:
   db:
+    driver: local
+  rabbitmq_data:
     driver: local
