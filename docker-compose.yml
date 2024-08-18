@@ -20,6 +20,7 @@ services:
       - API_POSTGRES_PASSWORD=${API_POSTGRES_PASSWORD}
       - API_POSTGRES_DB=${API_POSTGRES_DB}
       - API_POSTGRES_SERVER=${API_POSTGRES_SERVER}
+
   postgres-db:
     image: postgres
     container_name: postgres-server
@@ -41,12 +42,14 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
       - ./PostgreData:/docker-entrypoint-initdb.d
+  
   adminer:
     image: adminer
     container_name: adminer
     restart: always
     ports:
       - 8080:8080
+  
   express-gui-api:
     image: express-gui-api
     container_name: express-gui-api
@@ -59,6 +62,7 @@ services:
       - order-api
       - rabbitmq
     restart: always
+  
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
@@ -67,6 +71,7 @@ services:
       - 15672:15672
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+
 volumes:
   db:
     driver: local
