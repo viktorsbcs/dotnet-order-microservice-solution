@@ -1,3 +1,4 @@
+name: ordering-microservice-application
 services:
   order-api:
     build:
@@ -10,16 +11,9 @@ services:
       - rabbitmq
     ports:
       - 5000:5000
-    env_file: 
-      - path: ./api.env
-        required: true
-    environment:
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - ASPNETCORE_HTTP_PORTS=5000
-      - API_POSTGRES_USER=${API_POSTGRES_USER}
-      - API_POSTGRES_PASSWORD=${API_POSTGRES_PASSWORD}
-      - API_POSTGRES_DB=${API_POSTGRES_DB}
-      - API_POSTGRES_SERVER=${API_POSTGRES_SERVER}
+    env_file:
+      - ./Configs/api.dev.env
+
 
   postgres-db:
     image: postgres
@@ -28,12 +22,7 @@ services:
     ports:
       - 5432:5432
     env_file:
-      - path: ./db.env
-        required: true
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - ./Configs/db.dev.env
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres", "-d", "postgres"]
       interval: 1s
@@ -43,6 +32,7 @@ services:
       - db:/var/lib/postgresql/data
       - ./PostgreData:/docker-entrypoint-initdb.d
   
+
   adminer:
     image: adminer
     container_name: adminer
@@ -50,6 +40,7 @@ services:
     ports:
       - 8080:8080
   
+
   express-gui-api:
     image: express-gui-api
     container_name: express-gui-api
@@ -63,6 +54,7 @@ services:
       - rabbitmq
     restart: always
   
+
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
