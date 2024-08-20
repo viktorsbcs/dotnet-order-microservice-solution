@@ -11,18 +11,27 @@ class App extends Component {
 
 
   componentDidMount() {
-    axios.get(API_URL)
-      .then(res => {
-        const orders = res.data;
-        this.setState({ orders })
-      })
+    // axios.get(API_URL)
+    //   .then(res => {
+    //     const orders = res.data;
+    //     this.setState({ orders })
+    //   })
   }
 
   render() {
     return (
-      <div>
-        App component
-        <Orders orders={this.state.orders} />
+      <div class="container text-center">
+        <div class="row align-items-start mt-5">
+          <div class="col-2">
+          </div>
+          <div class="col-6">
+            <Orders orders={this.state.orders} />
+          </div>
+          <div class="col-2">
+          </div>
+        </div>
+
+        
       </div>
     )
   }
